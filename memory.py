@@ -8,7 +8,8 @@ between 0xFFFF and 0xFF00).
 CS 2210 Computer Organization
 Clayton Cafiero <cbcafier@uvm.edu>
 
-STARTER CODE - Raine Geary and Lee Ericson
+STARTER CODE - Raine Geary and Lee Ericson 
+HELLO LEE DO THIS ONE
 """
 
 from constants import STACK_BASE, WORD_SIZE
