@@ -68,7 +68,6 @@ class Memory:
                 self._write_enable(None)
                 return True
         else:
-
             raise RuntimeError
         
 
