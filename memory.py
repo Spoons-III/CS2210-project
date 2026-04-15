@@ -26,14 +26,17 @@ class Memory:
     def _check_addr(self, address):
         # Make sure address is positive, in the desired range,
         # otherwise raise a `ValueError`. Replace `pass` below.
-        if ((address < 0x0 and address > 0x00FF)):
+        if ((address < 0x0 or address > 0x00FF)):
             raise ValueError
 
     def write_enable(self, b):
         # Make sure `b` is a Boolean (hint: use `isinstance()).
         # If not, raise `TypeError`. If OK, then set
         # `_write_enable` accordingly. Replace `pass` below.
-        pass
+        if (isinstance(b, bool)):
+            self._write_enable = True
+        else:
+            raise TypeError
 
     def read(self, addr):
         """
@@ -42,7 +45,14 @@ class Memory:
         # Make sure `addr` is OK by calling `_check_addr`. If OK, return value
         # from `_cells` or default if never written. (Hint: use `.get()`.)
         # Replace `pass` below.
-        pass
+        # try:
+            # _check_addr(self, addr)
+        # except:
+            # raise ValueError
+        # else:
+        return self.default
+            
+
 
     def write(self, addr, value):
         """
@@ -52,8 +62,15 @@ class Memory:
         # Otherwise, call `_check_addr()`. If OK, write masked value to the
         # selected address, then turn off `_write_enable` when done. Return
         # `True` on success. Replace `pass` below.
-        pass
-        return True
+        if (self._write_enable):
+            if (self._check_addr(addr)):
+                # self.addr = value
+                self._write_enable(None)
+                return True
+        else:
+
+            raise RuntimeError
+        
 
     def hexdump(self, start=0, stop=None, width=8):
         """
