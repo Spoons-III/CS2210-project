@@ -26,7 +26,7 @@ class Memory:
     def _check_addr(self, address):
         # Make sure address is positive, in the desired range,
         # otherwise raise a `ValueError`. Replace `pass` below.
-        if ((address < 0x0 and address > 0x00FF)):
+        if ((address < 0x0 or address > 0xFFFF)):
             raise ValueError
 
     def write_enable(self, b):
@@ -45,16 +45,13 @@ class Memory:
         # Make sure `addr` is OK by calling `_check_addr`. If OK, return value
         # from `_cells` or default if never written. (Hint: use `.get()`.)
         # Replace `pass` below.
-        try:
-            self._check_addr(addr)
-        except:
-            raise ValueError
+        self._check_addr(addr)
+        val = 0
+        if self._cells.get(addr) != None:
+            val = self._cells.get(addr)
         else:
-            if (self._cells):
-                return self._cells
-            else:
-                return self.default
-
+            val = self.default
+        return val
     def write(self, addr, value):
         """
         Write 16-bit word to memory, masking to 16 bits.
@@ -64,11 +61,10 @@ class Memory:
         # selected address, then turn off `_write_enable` when done. Return
         # `True` on success. Replace `pass` below.
         if (self._write_enable):
-            if (self._check_addr(addr)):
-                value = value
-                self._cells[addr] = value
-                self._write_enable(None)
-                return True
+            self._check_addr(addr)
+            self._cells[addr] = value
+            self._write_enable = False
+            return True
         else:
             raise RuntimeError
         
