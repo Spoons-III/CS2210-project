@@ -26,7 +26,7 @@ class Memory:
     def _check_addr(self, address):
         # Make sure address is positive, in the desired range,
         # otherwise raise a `ValueError`. Replace `pass` below.
-        if ((address < 0x0 or address > 0x00FF)):
+        if ((address < 0x0 and address > 0x00FF)):
             raise ValueError
 
     def write_enable(self, b):
@@ -45,14 +45,15 @@ class Memory:
         # Make sure `addr` is OK by calling `_check_addr`. If OK, return value
         # from `_cells` or default if never written. (Hint: use `.get()`.)
         # Replace `pass` below.
-        # try:
-            # _check_addr(self, addr)
-        # except:
-            # raise ValueError
-        # else:
-        return self.default
-            
-
+        try:
+            self._check_addr(addr)
+        except:
+            raise ValueError
+        else:
+            if (self._cells):
+                return self._cells
+            else:
+                return self.default
 
     def write(self, addr, value):
         """
@@ -64,7 +65,8 @@ class Memory:
         # `True` on success. Replace `pass` below.
         if (self._write_enable):
             if (self._check_addr(addr)):
-                # self.addr = value
+                value = value
+                self._cells[addr] = value
                 self._write_enable(None)
                 return True
         else:
